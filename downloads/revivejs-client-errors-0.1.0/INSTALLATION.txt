@@ -1,0 +1,37 @@
+@revivejs/client-errors 0.1.0
+
+Browser bundle download
+=======================
+
+This folder is intended for applications that do not install packages from npm.
+
+Files
+-----
+- client-errors.browser.js
+- LICENSE
+- README.md
+
+Script tag usage
+----------------
+<script src="./client-errors.browser.js"></script>
+<script>
+  ReviveClientErrors.initClientErrors({
+    endpoint: "api/frontend-errors"
+  });
+</script>
+
+Global name
+-----------
+window.ReviveClientErrors
+
+Main exports
+------------
+- initClientErrors
+- createClientErrors
+- captureException
+- captureMessage
+- addBreadcrumb
+- setUserContext
+- setCustomContext
+- flush
+- destroy
