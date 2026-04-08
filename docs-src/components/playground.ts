@@ -96,6 +96,9 @@ const renderScreenshot = (
 
 export const mountPlayground = (element: HTMLElement): void => {
   const originalConsoleError = console.error.bind(console);
+  const isStaticDocsMode =
+    typeof window !== "undefined" && window.location.hostname.endsWith("github.io");
+  const simulatedPayloads: ClientErrorsPayload[] = [];
 
   element.innerHTML = `
     <section class="playground">
@@ -103,7 +106,7 @@ export const mountPlayground = (element: HTMLElement): void => {
         <div>
           <span class="eyebrow">Live playground</span>
           <h2>Trigger a real client-side failure and inspect the exact report</h2>
-          <p>This demo initializes the SDK against a local ingest endpoint, provokes a checkout calculation error on click, and renders both the normalized payload and the full-screen screenshot captured when the failure happens.</p>
+          <p>This demo initializes the SDK, provokes a checkout calculation error on click, and renders both the normalized payload and the full-screen screenshot captured when the failure happens.</p>
         </div>
       </div>
       <div class="playground__grid">
@@ -148,7 +151,7 @@ export const mountPlayground = (element: HTMLElement): void => {
           <div class="preview-card">
             <div class="status-pill" id="playground-status">SDK not initialized</div>
             <div class="status-meta" id="playground-count">Server events: 0</div>
-            <p class="preview-copy">Use the checkout button to trigger a pricing failure. The UI below shows the failed state before the SDK captures the exception and a full-screen screenshot.</p>
+            <p class="preview-copy">${isStaticDocsMode ? "This public docs build runs in static preview mode, so it prepares the payload locally without sending a network request." : "Use the checkout button to trigger a pricing failure. The UI below shows the failed state before the SDK captures the exception and a full-screen screenshot."}</p>
           </div>
           <div class="demo-surface" id="playground-demo-surface" data-phase="ready">
             <div class="demo-surface__bar">
@@ -266,6 +269,15 @@ export const mountPlayground = (element: HTMLElement): void => {
   };
 
   const refreshLogs = async (): Promise<void> => {
+    if (isStaticDocsMode) {
+      const latest = simulatedPayloads[simulatedPayloads.length - 1] ?? null;
+
+      countTarget.textContent = `Prepared events: ${simulatedPayloads.length}`;
+      renderPayload(outputTarget, latest);
+      renderScreenshot(screenshotImage, screenshotEmpty, screenshotMeta, latest);
+      return;
+    }
+
     try {
       const response = await fetch("api/frontend-errors/logs");
       const result = await response.json();
@@ -283,6 +295,7 @@ export const mountPlayground = (element: HTMLElement): void => {
 
   const initializeSdk = async (): Promise<void> => {
     destroy();
+    simulatedPayloads.splice(0, simulatedPayloads.length);
 
     const endpoint = endpointInput.value.trim();
     const authMode = authSelect.value;
@@ -319,6 +332,16 @@ export const mountPlayground = (element: HTMLElement): void => {
             : {
                 type: "none"
               },
+      beforeSend: (payload) => {
+        if (!isStaticDocsMode) {
+          return payload;
+        }
+
+        simulatedPayloads.push(payload);
+        statusTarget.textContent = "Payload prepared locally";
+        void refreshLogs();
+        return null;
+      },
       onSuccess: () => {
         statusTarget.textContent = "Payload delivered";
         void refreshLogs();
@@ -330,7 +353,9 @@ export const mountPlayground = (element: HTMLElement): void => {
 
     statusTarget.textContent = "SDK initialized";
     updateSnippet();
-    await fetch("api/frontend-errors/logs", { method: "DELETE" });
+    if (!isStaticDocsMode) {
+      await fetch("api/frontend-errors/logs", { method: "DELETE" });
+    }
     await refreshLogs();
   };
 
@@ -338,10 +363,14 @@ export const mountPlayground = (element: HTMLElement): void => {
     void initializeSdk();
   });
   element.querySelector<HTMLButtonElement>("#playground-clear")?.addEventListener("click", async () => {
-    await fetch("api/frontend-errors/logs", { method: "DELETE" });
+    simulatedPayloads.splice(0, simulatedPayloads.length);
+    if (!isStaticDocsMode) {
+      await fetch("api/frontend-errors/logs", { method: "DELETE" });
+    }
     renderPayload(outputTarget, null);
     renderScreenshot(screenshotImage, screenshotEmpty, screenshotMeta, null);
-    statusTarget.textContent = "Server logs cleared";
+    countTarget.textContent = isStaticDocsMode ? "Prepared events: 0" : "Server events: 0";
+    statusTarget.textContent = isStaticDocsMode ? "Prepared payloads cleared" : "Server logs cleared";
     resetDemoSurface();
   });
   element.querySelector<HTMLButtonElement>("#playground-capture-message")?.addEventListener("click", async () => {
