@@ -1,0 +1,77 @@
+{
+  "name": "@revivejs/client-errors",
+  "version": "0.1.0",
+  "description": "A lightweight frontend error reporting SDK for browser applications, with normalized payloads, sanitization, and transport to any developer-defined endpoint.",
+  "license": "MIT",
+  "author": "Alexandro Paixao Marques",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandroit/client-errors.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alexandroit/client-errors/issues"
+  },
+  "homepage": "https://alexandroit.github.io/client-errors/",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "postbuild": "node scripts/prune-package-artifacts.mjs",
+    "build:docs": "node scripts/build-docs.mjs",
+    "build:all": "npm run build && npm run build:docs",
+    "dev:docs": "node scripts/dev-server.mjs",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "check": "npm run typecheck && npm test && npm run build && npm run build:docs"
+  },
+  "keywords": [
+    "revivejs",
+    "client-errors",
+    "browser-errors",
+    "frontend-errors",
+    "error-reporting",
+    "error-sdk",
+    "browser-sdk",
+    "runtime-errors",
+    "unhandledrejection",
+    "window-error",
+    "frontend-monitoring",
+    "error-capture",
+    "payload-normalization",
+    "sanitization",
+    "breadcrumbs",
+    "screenshot",
+    "http-post",
+    "fetch",
+    "typescript",
+    "vanilla-js",
+    "framework-agnostic",
+    "privacy-aware",
+    "production-ready",
+    "browser"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "esbuild": "^0.25.11",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
