@@ -46,6 +46,7 @@ await esbuild.build({
 });
 
 await fs.copyFile(path.join(docsSrcDir, "index.html"), path.join(docsDir, "index.html"));
+await fs.copyFile(path.join(docsSrcDir, "favicon.svg"), path.join(docsDir, "favicon.svg"));
 await fs.copyFile(path.join(docsSrcDir, "styles", "site.css"), path.join(docsDir, "site.css"));
 await writeBlankIndex(path.join("api", "frontend-errors"));
 await writeBlankIndex(path.join("api", "frontend-errors", "logs"));

@@ -151,6 +151,7 @@ export const mountPlayground = (element: HTMLElement): void => {
           <div class="preview-card">
             <div class="status-pill" id="playground-status">SDK not initialized</div>
             <div class="status-meta" id="playground-count">Server events: 0</div>
+            ${isStaticDocsMode ? `<div class="status-badge">Static preview mode: no network requests</div>` : ""}
             <p class="preview-copy">${isStaticDocsMode ? "This public docs build runs in static preview mode, so it prepares the payload locally without sending a network request." : "Use the checkout button to trigger a pricing failure. The UI below shows the failed state before the SDK captures the exception and a full-screen screenshot."}</p>
           </div>
           <div class="demo-surface" id="playground-demo-surface" data-phase="ready">
