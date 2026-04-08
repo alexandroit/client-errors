@@ -446,7 +446,7 @@ npm test
 
 Minimal browser example:
 
-- [examples/basic/index.html](/storage/data/github/revivejs/client-errors/client-errors/examples/basic/index.html)
+- [examples/basic/index.html](./examples/basic/index.html)
 
 ## License
 

@@ -1,4 +1,4 @@
-@revivejs/client-errors 0.1.1
+@stackline/client-errors 0.1.1
 
 Browser bundle download
 =======================

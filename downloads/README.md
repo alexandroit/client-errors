@@ -1,10 +1,10 @@
 # GitHub Downloads
 
-This directory contains compiled browser-ready downloads for developers who do not install `@revivejs/client-errors` from npm.
+This directory contains compiled browser-ready downloads for developers who do not install `@stackline/client-errors` from npm.
 
 Current version:
 
-- [revivejs-client-errors-0.1.1.zip](./revivejs-client-errors-0.1.1.zip)
+- [stackline-client-errors-0.1.1.zip](./stackline-client-errors-0.1.1.zip)
 
 Inside the archive:
 

@@ -43,7 +43,7 @@
     "check": "npm run typecheck && npm test && npm run build && npm run build:docs"
   },
   "keywords": [
-    "revivejs",
+    "stackline",
     "client-errors",
     "browser-errors",
     "frontend-errors",

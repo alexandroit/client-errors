@@ -1,4 +1,4 @@
-# @revivejs/client-errors
+# @stackline/client-errors
 
 > Browser error reporting SDK for sending normalized client-side errors to your own endpoint.
 
@@ -8,7 +8,7 @@
 [![Docs](https://img.shields.io/badge/Docs-Live%20Playground%20%26%20Guides-0f172a?style=flat-square)](https://alexandroit.github.io/client-errors/)
 [![Runtime](https://img.shields.io/badge/Runtime-Zero%20Dependencies-0f766e?style=flat-square)](https://github.com/alexandroit/client-errors)
 
-**[Documentation & Playground](https://alexandroit.github.io/client-errors/)** | **[npm](https://www.npmjs.com/package/@revivejs/client-errors)** | **[GitHub Download](https://github.com/alexandroit/client-errors/tree/main/downloads)** | **[Issues](https://github.com/alexandroit/client-errors/issues)** | **[Repository](https://github.com/alexandroit/client-errors)**
+**[Documentation & Playground](https://alexandroit.github.io/client-errors/)** | **[npm](https://www.npmjs.com/package/@stackline/client-errors)** | **[GitHub Download](https://github.com/alexandroit/client-errors/tree/main/downloads)** | **[Issues](https://github.com/alexandroit/client-errors/issues)** | **[Repository](https://github.com/alexandroit/client-errors)**
 
 **Latest version:** `0.1.1`
 
@@ -16,7 +16,7 @@
 
 ## Why this library?
 
-`@revivejs/client-errors` is built for applications that need a small browser SDK for error capture without depending on a hosted service.
+`@stackline/client-errors` is built for applications that need a small browser SDK for error capture without depending on a hosted service.
 
 - it runs in standard browser environments
 - it captures client-side runtime errors and useful context
@@ -78,7 +78,7 @@ This package is focused on the browser SDK layer. It does not include a hosted b
 ## Installation
 
 ```bash
-npm install @revivejs/client-errors
+npm install @stackline/client-errors
 ```
 
 ## Quick Start
@@ -86,7 +86,7 @@ npm install @revivejs/client-errors
 The main quick start uses a relative endpoint path:
 
 ```ts
-import { initClientErrors } from "@revivejs/client-errors";
+import { initClientErrors } from "@stackline/client-errors";
 
 initClientErrors({
   endpoint: "api/frontend-errors"
@@ -115,7 +115,7 @@ The generated archive includes a browser-ready file named `client-errors.browser
 Use a normal POST request when no authentication is required:
 
 ```ts
-import { initClientErrors } from "@revivejs/client-errors";
+import { initClientErrors } from "@stackline/client-errors";
 
 initClientErrors({
   endpoint: "api/frontend-errors",
@@ -252,7 +252,7 @@ import {
   initClientErrors,
   setCustomContext,
   setUserContext
-} from "@revivejs/client-errors";
+} from "@stackline/client-errors";
 
 initClientErrors({
   endpoint: "api/frontend-errors",
@@ -308,7 +308,7 @@ import {
   initClientErrors,
   setCustomContext,
   setUserContext
-} from "@revivejs/client-errors";
+} from "@stackline/client-errors";
 ```
 
 ### `initClientErrors(config)`
@@ -446,7 +446,7 @@ npm test
 
 Minimal browser example:
 
-- [examples/basic/index.html](/storage/data/github/revivejs/client-errors/client-errors/examples/basic/index.html)
+- [examples/basic/index.html](./examples/basic/index.html)
 
 ## License
 
