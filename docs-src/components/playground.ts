@@ -22,10 +22,17 @@ initClientErrors({
   endpoint: "${endpoint}",
   appName: "docs-playground",
   environment: "development",
-  release: "0.1.0",
+  release: "0.1.1",
   captureWindowErrors: true,
   captureUnhandledRejections: true,
   captureConsoleErrors: ${captureConsoleErrors},
+  dom: {
+    enabled: true
+  },
+  sourceContext: {
+    enabled: true,
+    contextLines: 2
+  },
   screenshot: {
     enabled: true,
     format: "image/png",
@@ -83,7 +90,7 @@ const renderScreenshot = (
     imageTarget.hidden = true;
     imageTarget.removeAttribute("src");
     emptyTarget.hidden = false;
-    metaTarget.textContent = "The next captured error will render a full-screen screenshot of the page here.";
+    metaTarget.textContent = "The next captured event will render a full-screen screenshot of the page here.";
     return;
   }
 
@@ -105,8 +112,8 @@ export const mountPlayground = (element: HTMLElement): void => {
       <div class="playground__header">
         <div>
           <span class="eyebrow">Live playground</span>
-          <h2>Trigger a real client-side failure and inspect the exact report</h2>
-          <p>This demo initializes the SDK, provokes a checkout calculation error on click, and renders both the normalized payload and the full-screen screenshot captured when the failure happens.</p>
+          <h2>Trigger an error and inspect the report</h2>
+          <p>This demo initializes the SDK, triggers a checkout calculation error, and shows the normalized payload together with the captured screenshot.</p>
         </div>
       </div>
       <div class="playground__grid">
@@ -151,7 +158,7 @@ export const mountPlayground = (element: HTMLElement): void => {
           <div class="preview-card">
             <div class="status-pill" id="playground-status">SDK not initialized</div>
             <div class="status-meta" id="playground-count">Server events: 0</div>
-            <p class="preview-copy">${isStaticDocsMode ? "This public docs build runs in static preview mode, so it prepares the payload locally without sending a network request." : "Use the checkout button to trigger a pricing failure. The UI below shows the failed state before the SDK captures the exception and a full-screen screenshot."}</p>
+            <p class="preview-copy">${isStaticDocsMode ? "On GitHub Pages this demo prepares the payload locally and skips the network request." : "Click the button to trigger a checkout error. The payload and screenshot will appear below."}</p>
           </div>
           <div class="demo-surface" id="playground-demo-surface" data-phase="ready">
             <div class="demo-surface__bar">
@@ -173,7 +180,7 @@ export const mountPlayground = (element: HTMLElement): void => {
                   <strong id="playground-demo-total">Pending calculation</strong>
                 </div>
               </div>
-              <div class="demo-surface__notice" id="playground-demo-note">Click the button to simulate a broken checkout rule that divides by zero.</div>
+              <div class="demo-surface__notice" id="playground-demo-note">Click the button to simulate a checkout rule that divides by zero.</div>
               <div class="demo-surface__error" id="playground-demo-error" hidden></div>
             </div>
             <div class="demo-surface__footer">
@@ -189,14 +196,14 @@ export const mountPlayground = (element: HTMLElement): void => {
       <div class="playground__row">
         <div class="preview-card preview-card--payload">
           <h3>Last received payload</h3>
-          <p class="preview-copy">This is the exact normalized JSON POSTed to the local ingest endpoint after the action above fails.</p>
+          <p class="preview-copy">This is the normalized payload generated for the last captured event.</p>
           <pre><code id="playground-output">No payload received yet.</code></pre>
         </div>
       </div>
       <div class="playground__row">
         <div class="preview-card">
           <h3>Captured screenshot</h3>
-          <p class="preview-copy" id="playground-screenshot-meta">The next captured error will render a full-screen screenshot of the page here.</p>
+          <p class="preview-copy" id="playground-screenshot-meta">The next captured event will render a full-screen screenshot of the page here.</p>
           <div class="screenshot-card">
             <div class="screenshot-empty" id="playground-screenshot-empty">No screenshot captured yet.</div>
             <img id="playground-screenshot-image" class="screenshot-image" hidden />
@@ -252,7 +259,7 @@ export const mountPlayground = (element: HTMLElement): void => {
     demoSurface.dataset.phase = "ready";
     demoPhase.textContent = "Checkout ready";
     demoAction.textContent = "Waiting for a user action";
-    demoNote.textContent = "Click the button to simulate a broken checkout rule that divides by zero.";
+    demoNote.textContent = "Click the button to simulate a checkout rule that divides by zero.";
     demoClick.textContent = "No click recorded yet";
     demoTotal.textContent = "Pending calculation";
     demoDivider.textContent = "0";
@@ -305,10 +312,17 @@ export const mountPlayground = (element: HTMLElement): void => {
       endpoint,
       appName: "docs-playground",
       environment: "development",
-      release: "0.1.0",
+      release: "0.1.1",
       captureWindowErrors: true,
       captureUnhandledRejections: true,
       captureConsoleErrors,
+      dom: {
+        enabled: true
+      },
+      sourceContext: {
+        enabled: true,
+        contextLines: 2
+      },
       screenshot: {
         enabled: true,
         format: "image/png",
@@ -400,7 +414,7 @@ export const mountPlayground = (element: HTMLElement): void => {
     resetDemoSurface();
     statusTarget.textContent = "Demo surface reset";
   });
-  element.querySelector<HTMLButtonElement>("#playground-trigger-demo")?.addEventListener("click", async () => {
+  element.querySelector<HTMLButtonElement>("#playground-trigger-demo")?.addEventListener("click", async (event) => {
     addBreadcrumb({
       type: "manual",
       value: "Checkout CTA clicked in playground"
@@ -441,6 +455,7 @@ export const mountPlayground = (element: HTMLElement): void => {
 
       await captureException(error, {
         source: "docs.checkout-demo",
+        target: event.currentTarget,
         custom: {
           demo: "checkout-surface",
           action: "trigger-checkout-error",

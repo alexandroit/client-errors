@@ -2,22 +2,86 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { resolveConfig } from "../src/core/config";
 import { createClientErrors } from "../src/core/client";
+import { captureDomContext } from "../src/normalize/dom-context";
+import { captureSourceContext } from "../src/normalize/source-context";
 import { sanitizePayload } from "../src/sanitize/core";
 import { sendPayload } from "../src/transport/fetch";
 import { resolveEndpoint } from "../src/transport/resolve-endpoint";
 import type { ClientErrorsPayload } from "../src/types";
+import type { ClientErrorsState } from "../src/core/state";
+
+class FakeElement {
+  tagName: string;
+  id: string;
+  className: string;
+  textContent: string;
+  outerHTML: string;
+  private readonly container: FakeElement | null;
+
+  constructor(options: {
+    tagName?: string;
+    id?: string;
+    className?: string;
+    textContent?: string;
+    outerHTML?: string;
+    container?: FakeElement | null;
+  } = {}) {
+    this.tagName = (options.tagName ?? "div").toUpperCase();
+    this.id = options.id ?? "";
+    this.className = options.className ?? "";
+    this.textContent = options.textContent ?? "";
+    this.outerHTML = options.outerHTML ?? "<div></div>";
+    this.container = options.container ?? null;
+  }
+
+  closest(selector: string): FakeElement | null {
+    if (selector === "form" && this.container?.tagName === "FORM") {
+      return this.container;
+    }
+
+    if (selector.includes("form") && this.container?.tagName === "FORM") {
+      return this.container;
+    }
+
+    return null;
+  }
+
+  cloneNode(): FakeElement {
+    return new FakeElement({
+      tagName: this.tagName,
+      id: this.id,
+      className: this.className,
+      textContent: this.textContent,
+      outerHTML: this.outerHTML
+    });
+  }
+
+  querySelectorAll(): Array<{ remove?: () => void; textContent?: string }> {
+    return [];
+  }
+
+  addEventListener(): void {}
+
+  removeEventListener(): void {}
+
+  dispatchEvent(): boolean {
+    return true;
+  }
+}
 
 const installBrowserStubs = () => {
   const originalWindow = globalThis.window;
   const originalDocument = globalThis.document;
   const originalNavigator = globalThis.navigator;
   const originalFetch = globalThis.fetch;
+  const originalElement = (globalThis as { Element?: unknown }).Element;
 
   Object.defineProperty(globalThis, "window", {
     configurable: true,
     value: {
       location: {
         href: "https://app.example.com/dashboard?token=secret",
+        origin: "https://app.example.com",
         pathname: "/dashboard",
         search: "?token=secret"
       },
@@ -41,6 +105,8 @@ const installBrowserStubs = () => {
     value: {
       referrer: "https://referrer.example.com",
       title: "Client errors test page",
+      activeElement: null,
+      body: null,
       addEventListener: () => {},
       removeEventListener: () => {}
     }
@@ -52,6 +118,11 @@ const installBrowserStubs = () => {
       userAgent: "node-test",
       language: "en-US"
     }
+  });
+
+  Object.defineProperty(globalThis, "Element", {
+    configurable: true,
+    value: FakeElement
   });
 
   return () => {
@@ -70,6 +141,10 @@ const installBrowserStubs = () => {
     Object.defineProperty(globalThis, "fetch", {
       configurable: true,
       value: originalFetch
+    });
+    Object.defineProperty(globalThis, "Element", {
+      configurable: true,
+      value: originalElement
     });
   };
 };
@@ -264,6 +339,115 @@ test("disables keepalive for payloads that include screenshots", async () => {
     );
 
     assert.equal(keepaliveValue, false);
+  } finally {
+    restore();
+  }
+});
+
+test("captures a sanitized DOM snippet for the active element container", () => {
+  const restore = installBrowserStubs();
+
+  try {
+    const form = new FakeElement({
+      tagName: "form",
+      id: "checkout-form",
+      outerHTML:
+        '<form id="checkout-form"><button id="submit-order" class="primary">Pay now</button></form>'
+    });
+    const button = new FakeElement({
+      tagName: "button",
+      id: "submit-order",
+      className: "primary",
+      textContent: "Pay now",
+      outerHTML: '<button id="submit-order" class="primary">Pay now</button>',
+      container: form
+    });
+
+    Object.defineProperty(globalThis, "document", {
+      configurable: true,
+      value: {
+        referrer: "https://referrer.example.com",
+        title: "Client errors test page",
+        activeElement: button,
+        body: form,
+        addEventListener: () => {},
+        removeEventListener: () => {}
+      }
+    });
+
+    const domContext = captureDomContext(button, "", {
+      enabled: true,
+      redactKeys: [],
+      redactHeaders: [],
+      redactQueryParams: [],
+      redactBodyPaths: [],
+      maskSelectors: [],
+      removeSelectors: [],
+      stripInputValues: false,
+      maxStringLength: 1000,
+      maxStackLength: 8000,
+      maxConsoleEntryLength: 1000,
+      maxConsoleEntries: 20,
+      maxBreadcrumbValueLength: 240,
+      maxDomSnippetLength: 4000,
+      replacementText: "[Redacted]"
+    });
+
+    assert.equal(domContext?.target, 'button#submit-order.primary "Pay now"');
+    assert.match(domContext?.snippet ?? "", /checkout-form/);
+  } finally {
+    restore();
+  }
+});
+
+test("captures source lines for same-origin scripts when enabled", async () => {
+  const restore = installBrowserStubs();
+
+  Object.defineProperty(globalThis, "fetch", {
+    configurable: true,
+    value: async (input: RequestInfo | URL) => {
+      const url = String(input);
+
+      if (url.includes("/assets/main.js")) {
+        return new Response(
+          ['const subtotal = 128.45;', "const divider = 0;", "return subtotal / divider;"].join("\n"),
+          {
+            status: 200,
+            statusText: "OK"
+          }
+        );
+      }
+
+      return new Response(null, {
+        status: 202,
+        statusText: "Accepted"
+      });
+    }
+  });
+
+  try {
+    const state = {
+      config: resolveConfig({
+        endpoint: "https://api.example.com/frontend-errors",
+        sourceContext: {
+          enabled: true,
+          contextLines: 1
+        }
+      }),
+      sourceFileCache: new Map<string, Promise<string | null>>()
+    } as ClientErrorsState;
+
+    const sourceContext = await captureSourceContext(
+      state,
+      "https://app.example.com/assets/main.js",
+      3,
+      18
+    );
+
+    assert.equal(sourceContext?.line, 3);
+    assert.equal(sourceContext?.lines?.length, 2);
+    assert.equal(sourceContext?.lines?.[1]?.highlight, true);
+    assert.match(sourceContext?.lines?.[1]?.content ?? "", /divider/);
   } finally {
     restore();
   }

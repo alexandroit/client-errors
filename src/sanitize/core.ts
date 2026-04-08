@@ -25,6 +25,10 @@ const getStringMaximum = (
     return config.maxStackLength ?? 8000;
   }
 
+  if (path[path.length - 1] === "snippet") {
+    return config.maxDomSnippetLength ?? 4000;
+  }
+
   return config.maxStringLength ?? 1000;
 };
 

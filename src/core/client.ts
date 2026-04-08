@@ -36,7 +36,7 @@ const processPendingCapture = async (
   state.recursionGuard += 1;
 
   try {
-    let payload = sanitizePayload(buildPayload(state, item), state.config.sanitize);
+    let payload = sanitizePayload(await buildPayload(state, item), state.config.sanitize);
 
     if (isRateLimited(state, timestampMs) || isDuplicatePayload(state, payload, timestampMs)) {
       return;
@@ -145,6 +145,7 @@ export const createClientErrors = (config: ClientErrorsConfig): ClientErrorsInst
         kind: "exception",
         source: extra?.source ?? "manual.exception",
         error,
+        target: extra?.target,
         extra: {
           ...extra,
           originalError: extra?.originalError ?? error
@@ -161,6 +162,7 @@ export const createClientErrors = (config: ClientErrorsConfig): ClientErrorsInst
         source: extra?.source ?? "manual.message",
         level,
         message,
+        target: extra?.target,
         extra
       });
     },

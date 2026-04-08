@@ -19,10 +19,10 @@ export const pages: DocsPage[] = [
     title: "Overview",
     eyebrow: "Browser SDK",
     description:
-      "A lightweight frontend error reporting SDK designed to POST normalized client error payloads to any endpoint you control.",
+      "Capture browser runtime errors and send a normalized JSON payload to an endpoint you control.",
     body: `
-      <p><strong>@revivejs/client-errors</strong> is built for real production apps that need client-side runtime error reporting without buying into a hosted platform, dashboard, or vendor backend. It captures errors, collects safe context, normalizes everything into one payload shape, and ships it to any endpoint you define.</p>
-      <p>The package stays framework-agnostic on purpose. The core runs in plain browsers today, and future React, Angular, and Vue wrappers can stay thin because they will reuse this same runtime.</p>
+      <p><strong>@revivejs/client-errors</strong> captures frontend errors in the browser, collects basic request and page context, normalizes the result into a stable payload, and sends it with a POST request.</p>
+      <p>The package is framework-agnostic. You can use it in plain browser applications today and wrap the same runtime later for React, Angular, or Vue.</p>
     `
   },
   {
@@ -30,7 +30,7 @@ export const pages: DocsPage[] = [
     title: "Installation",
     eyebrow: "Quick start",
     description:
-      "The simplest setup is a single relative endpoint path and a normal POST request.",
+      "Install the package and initialize it with your ingest endpoint.",
     body: `
       ${codeBlock(`npm install @revivejs/client-errors`, "bash")}
       ${codeBlock(`import { initClientErrors } from "@revivejs/client-errors";
@@ -38,7 +38,7 @@ export const pages: DocsPage[] = [
 initClientErrors({
   endpoint: "api/frontend-errors"
 });`)}
-      <p>Absolute URLs are also supported, but the documentation examples default to a relative path because that fits the most common browser-to-app-backend setup.</p>
+      <p>The examples in this documentation use a relative path. Absolute URLs are also supported when your ingest service is hosted elsewhere.</p>
     `
   },
   {
@@ -46,7 +46,7 @@ initClientErrors({
     title: "Transport & Auth",
     eyebrow: "Backend agnostic",
     description:
-      "Use pure POST with no authentication, bearer token auth, custom headers, dynamic headers, or cookie-based requests.",
+      "Use plain POST, bearer tokens, custom headers, dynamic headers, or cookie-based requests.",
     body: `
       ${codeBlock(`initClientErrors({
   endpoint: "api/frontend-errors"
@@ -71,6 +71,7 @@ initClientErrors({
   }),
   credentials: "include"
 });`)}
+      <p>The SDK uses <code>fetch</code> and builds the request from your configuration. It does not depend on any specific backend product or hosted service.</p>
     `
   },
   {
@@ -78,7 +79,7 @@ initClientErrors({
     title: "API",
     eyebrow: "Public surface",
     description:
-      "The SDK exposes both initialization and manual capture APIs for domain-specific reporting.",
+      "Initialize the SDK once, then use the manual helpers when you need to report domain-specific failures.",
     body: `
       ${codeBlock(`import {
   addBreadcrumb,
@@ -109,11 +110,31 @@ destroy();`)}
     `
   },
   {
+    id: "debug-context",
+    title: "Debug Context",
+    eyebrow: "DOM & source lines",
+    description:
+      "Optionally attach a sanitized HTML snippet and a few lines of source around the failing location.",
+    body: `
+      ${codeBlock(`initClientErrors({
+  endpoint: "api/frontend-errors",
+  dom: {
+    enabled: true
+  },
+  sourceContext: {
+    enabled: true,
+    contextLines: 2
+  }
+});`)}
+      <p>Use <code>dom.enabled</code> when you want a small sanitized HTML snippet near the failing element. Use <code>sourceContext.enabled</code> when you want nearby source lines for same-origin scripts. Both features are optional.</p>
+    `
+  },
+  {
     id: "sanitization",
     title: "Sanitization",
     eyebrow: "Privacy-aware",
     description:
-      "Safe defaults are on by default, and the sanitization layer is configurable for enterprise rules.",
+      "Redact sensitive fields before data leaves the browser.",
     body: `
       ${codeBlock(`initClientErrors({
   endpoint: "api/frontend-errors",
@@ -133,7 +154,7 @@ destroy();`)}
     maxStackLength: 8000
   }
 });`)}
-      <p>The SDK applies truncation and redaction before transport so the payload stays practical and safer to process on the backend.</p>
+      <p>The SDK truncates and redacts data before transport. You can keep the defaults or add stricter rules for your own application.</p>
     `
   },
   {
@@ -141,13 +162,13 @@ destroy();`)}
     title: "Limitations",
     eyebrow: "Notes",
     description:
-      "The package is intentionally focused on client error reporting, not observability platform scope.",
+      "This package focuses on client-side error reporting.",
     body: `
       <ul>
-        <li>It does not include a hosted dashboard, replay service, or vendor backend.</li>
-        <li>Screenshot capture is optional and best-effort. Cross-origin assets and browser restrictions can limit fidelity.</li>
-        <li>The SDK is designed to fail silent. If transport or screenshot capture fails, the host app should keep working normally.</li>
-        <li>Absolute endpoints are supported too, even though the docs examples use a relative path by default.</li>
+        <li>It does not include a hosted dashboard, replay service, or backend service.</li>
+        <li>Screenshot capture is optional and best-effort. Cross-origin assets and browser restrictions can affect the result.</li>
+        <li>If transport or screenshot capture fails, the SDK drops the event instead of interrupting the host application.</li>
+        <li>Both relative and absolute endpoints are supported.</li>
       </ul>
     `
   }

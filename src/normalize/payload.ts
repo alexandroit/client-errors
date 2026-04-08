@@ -1,6 +1,8 @@
 import type { ClientErrorsPayload, ClientErrorsViewport } from "../types";
 import type { PendingCaptureItem, ClientErrorsState } from "../core/state";
 import { normalizeError } from "./error";
+import { captureDomContext, getDomTarget } from "./dom-context";
+import { captureSourceContext } from "./source-context";
 import { safeCall } from "../utils/safe-run";
 import { safeClone } from "../utils/serialize";
 
@@ -59,7 +61,7 @@ export const buildPayload = (
   state: ClientErrorsState,
   item: PendingCaptureItem,
   screenshotDataUrl?: string | null
-): ClientErrorsPayload => {
+): Promise<ClientErrorsPayload> => {
   const app =
     state.config.appName || state.config.environment || state.config.release
       ? {
@@ -81,15 +83,28 @@ export const buildPayload = (
     ...(safeClone(state.customContext) ?? {}),
     ...(safeClone(item.extra?.custom) ?? {})
   };
+  const normalizedError = normalizeError(item);
+  const domContext = state.config.dom.enabled
+    ? captureDomContext(getDomTarget(item), state.config.dom.rootSelector, state.config.sanitize)
+    : undefined;
 
-  return {
+  return captureSourceContext(
+    state,
+    normalizedError.fileName,
+    normalizedError.line,
+    normalizedError.column
+  ).then((sourceContext) => ({
     schemaVersion: "1.0",
     eventId: item.eventId,
     timestamp: item.timestamp,
     app,
     page: getPageContext(),
     browser: getBrowserContext(),
-    error: normalizeError(item),
+    error: {
+      ...normalizedError,
+      ...(domContext ? { dom: domContext } : {}),
+      ...(sourceContext ? { sourceContext } : {})
+    },
     console: state.consoleEntries.slice(),
     breadcrumbs: [...state.breadcrumbs, ...(item.extra?.breadcrumbs ?? [])],
     network: item.extra?.network?.slice(),
@@ -109,5 +124,5 @@ export const buildPayload = (
       : item.extra?.tags
         ? { tags: item.extra.tags }
         : undefined
-  };
+  }));
 };

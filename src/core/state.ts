@@ -38,6 +38,7 @@ export interface ClientErrorsState {
   dedupeMap: Map<string, number>;
   rateWindow: number[];
   recursionGuard: number;
+  sourceFileCache: Map<string, Promise<string | null>>;
   originalConsole: Partial<Record<"error" | "warn", typeof console.error>>;
   originalPushState?: History["pushState"];
   originalReplaceState?: History["replaceState"];
@@ -57,5 +58,6 @@ export const createState = (config: ResolvedClientErrorsConfig): ClientErrorsSta
   dedupeMap: new Map<string, number>(),
   rateWindow: [],
   recursionGuard: 0,
+  sourceFileCache: new Map<string, Promise<string | null>>(),
   originalConsole: {}
 });

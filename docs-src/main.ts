@@ -33,7 +33,7 @@ app.innerHTML = `
       <a class="brand" href="#playground">
         <span class="eyebrow">ReviveJS</span>
         <h1>@revivejs/client-errors</h1>
-        <p>A lightweight frontend error reporting SDK with optional screenshot and context capture, designed to send reports to any developer-defined endpoint without platform lock-in.</p>
+        <p>Browser error reporting SDK for sending normalized client-side errors to your own endpoint.</p>
       </a>
       <nav class="nav">
         ${navMarkup}
@@ -43,8 +43,8 @@ app.innerHTML = `
       <div id="playground"></div>
       <section class="hero">
         <span class="eyebrow">Vanilla TypeScript SDK</span>
-        <h2>Frontend error reporting without a vendor backend.</h2>
-        <p><strong>@revivejs/client-errors</strong> captures browser runtime failures, normalizes context into one stable JSON contract, applies privacy-aware sanitization, and POSTs the result to any endpoint you control.</p>
+        <h2>Capture frontend errors and send them to your backend.</h2>
+        <p><strong>@revivejs/client-errors</strong> listens for browser runtime failures, normalizes the event into a predictable payload, applies sanitization rules, and sends the result with a POST request.</p>
         <div class="hero__meta">
           <span>Absolute and relative endpoints</span>
           <span>Pure POST or authenticated requests</span>

@@ -1,17 +1,21 @@
 import {
   DEFAULT_AUTH,
   DEFAULT_BREADCRUMBS,
+  DEFAULT_DOM,
   DEFAULT_METHOD,
   DEFAULT_RATE_LIMIT,
   DEFAULT_SANITIZE,
+  DEFAULT_SOURCE_CONTEXT,
   DEFAULT_SCREENSHOT
 } from "./defaults";
 import type {
   ClientErrorsAuth,
   ClientErrorsBreadcrumbConfig,
   ClientErrorsConfig,
+  ClientErrorsDomConfig,
   ClientErrorsRateLimitConfig,
   ClientErrorsSanitizeConfig,
+  ClientErrorsSourceContextConfig,
   ClientErrorsScreenshotConfig
 } from "../types";
 
@@ -30,6 +34,8 @@ export interface ResolvedClientErrorsConfig extends ClientErrorsConfig {
   captureConsoleWarnings: boolean;
   captureResourceErrors: boolean;
   breadcrumbs: Required<ClientErrorsBreadcrumbConfig>;
+  dom: Required<ClientErrorsDomConfig>;
+  sourceContext: Required<ClientErrorsSourceContextConfig>;
   screenshot: Required<Omit<ClientErrorsScreenshotConfig, "provider">> & {
     provider?: ClientErrorsScreenshotConfig["provider"];
   };
@@ -67,6 +73,16 @@ export const resolveConfig = (config: ClientErrorsConfig): ResolvedClientErrorsC
     ...config.breadcrumbs
   };
 
+  const dom = {
+    ...DEFAULT_DOM,
+    ...config.dom
+  };
+
+  const sourceContext = {
+    ...DEFAULT_SOURCE_CONTEXT,
+    ...config.sourceContext
+  };
+
   const screenshot = {
     ...DEFAULT_SCREENSHOT,
     ...config.screenshot
@@ -94,6 +110,8 @@ export const resolveConfig = (config: ClientErrorsConfig): ResolvedClientErrorsC
     captureConsoleWarnings: config.captureConsoleWarnings ?? false,
     captureResourceErrors: config.captureResourceErrors ?? false,
     breadcrumbs,
+    dom,
+    sourceContext,
     screenshot,
     sanitize,
     rateLimit,

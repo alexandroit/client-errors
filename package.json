@@ -1,6 +1,6 @@
 {
   "name": "@revivejs/client-errors",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A lightweight frontend error reporting SDK for browser applications, with normalized payloads, sanitization, and transport to any developer-defined endpoint.",
   "license": "MIT",
   "author": "Alexandro Paixao Marques",

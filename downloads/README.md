@@ -4,7 +4,7 @@ This directory contains compiled browser-ready downloads for developers who do n
 
 Current version:
 
-- [revivejs-client-errors-0.1.0.zip](./revivejs-client-errors-0.1.0.zip)
+- [revivejs-client-errors-0.1.1.zip](./revivejs-client-errors-0.1.1.zip)
 
 Inside the archive:
 

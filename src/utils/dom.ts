@@ -2,7 +2,7 @@ import { truncateString } from "./limits";
 import { safeCall } from "./safe-run";
 
 export const describeElement = (target: EventTarget | null): string => {
-  if (!(target instanceof Element)) {
+  if (typeof Element === "undefined" || !(target instanceof Element)) {
     return "unknown";
   }
 

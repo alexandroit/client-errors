@@ -1,6 +1,6 @@
 # @revivejs/client-errors
 
-> A lightweight frontend error reporting SDK with optional screenshot and context capture, designed to send reports to any developer-defined endpoint without platform lock-in.
+> Browser error reporting SDK for sending normalized client-side errors to your own endpoint.
 
 [![license](https://img.shields.io/badge/License-MIT-111827?style=flat-square)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
@@ -10,15 +10,13 @@
 
 **[Documentation & Playground](https://alexandroit.github.io/client-errors/)** | **[npm](https://www.npmjs.com/package/@revivejs/client-errors)** | **[GitHub Download](https://github.com/alexandroit/client-errors/tree/main/downloads)** | **[Issues](https://github.com/alexandroit/client-errors/issues)** | **[Repository](https://github.com/alexandroit/client-errors)**
 
-**Latest version:** `0.1.0`
+**Latest version:** `0.1.1`
 
 ---
 
 ## Why this library?
 
-Most frontend error tools are tied to a hosted platform, a dashboard product, or a framework-specific integration.
-
-`@revivejs/client-errors` takes a different approach:
+`@revivejs/client-errors` is built for applications that need a small browser SDK for error capture without depending on a hosted service.
 
 - it runs in standard browser environments
 - it captures client-side runtime errors and useful context
@@ -26,7 +24,7 @@ Most frontend error tools are tied to a hosted platform, a dashboard product, or
 - it sends that payload to any endpoint you control
 - it stays fail-silent and non-blocking so the host app keeps working even when SDK steps fail
 
-This package is intentionally focused on the browser SDK layer. It is not a hosted observability platform, replay system, dashboard, or login-driven SaaS product.
+This package is focused on the browser SDK layer. It does not include a hosted backend, dashboard, or replay service.
 
 ## Features
 
@@ -48,6 +46,8 @@ This package is intentionally focused on the browser SDK layer. It is not a host
 | Optional console.error / console.warn capture | ✅ |
 | Optional resource load error capture | ✅ |
 | Breadcrumbs for clicks, navigation, and manual events | ✅ |
+| Optional sanitized DOM snippet capture | ✅ |
+| Optional source-context lines for same-origin scripts | ✅ |
 | Queue-based processing | ✅ |
 | Rate limiting and dedupe | ✅ |
 | Sanitization and redaction | ✅ |
@@ -64,15 +64,16 @@ This package is intentionally focused on the browser SDK layer. It is not a host
 6. [Custom Headers Example](#custom-headers-example)
 7. [Dynamic Headers Example](#dynamic-headers-example)
 8. [Screenshot Example](#screenshot-example)
-9. [Sanitization Example](#sanitization-example)
-10. [Manual Capture Example](#manual-capture-example)
-11. [Relative Endpoints](#relative-endpoints)
-12. [API Reference](#api-reference)
-13. [Privacy Notes](#privacy-notes)
-14. [Performance Notes](#performance-notes)
-15. [Limitations](#limitations)
-16. [Run Locally](#run-locally)
-17. [License](#license)
+9. [Debug Context Example](#debug-context-example)
+10. [Sanitization Example](#sanitization-example)
+11. [Manual Capture Example](#manual-capture-example)
+12. [Relative Endpoints](#relative-endpoints)
+13. [API Reference](#api-reference)
+14. [Privacy Notes](#privacy-notes)
+15. [Performance Notes](#performance-notes)
+16. [Limitations](#limitations)
+17. [Run Locally](#run-locally)
+18. [License](#license)
 
 ## Installation
 
@@ -111,7 +112,7 @@ The generated archive includes a browser-ready file named `client-errors.browser
 
 ## Pure POST With No Authentication
 
-Unauthenticated POST is a first-class use case:
+Use a normal POST request when no authentication is required:
 
 ```ts
 import { initClientErrors } from "@revivejs/client-errors";
@@ -196,6 +197,25 @@ initClientErrors({
 });
 ```
 
+## Debug Context Example
+
+Attach a sanitized DOM snippet and source lines around the failing location:
+
+```ts
+initClientErrors({
+  endpoint: "api/frontend-errors",
+  dom: {
+    enabled: true
+  },
+  sourceContext: {
+    enabled: true,
+    contextLines: 2
+  }
+});
+```
+
+`dom.enabled` captures a small sanitized HTML snippet near the failing element. `sourceContext.enabled` adds nearby source lines for same-origin scripts when a file, line, and column are available.
+
 ## Sanitization Example
 
 ```ts
@@ -265,14 +285,6 @@ await flush();
 ```
 
 ## Relative Endpoints
-
-Relative paths are the main documented pattern:
-
-```ts
-initClientErrors({
-  endpoint: "api/frontend-errors"
-});
-```
 
 ```ts
 initClientErrors({
@@ -362,7 +374,23 @@ The SDK sends a normalized JSON payload shaped like this:
     type: "exception",
     name: "Error",
     message: "Checkout failed",
-    stack: "..."
+    stack: "...",
+    dom: {
+      target: "button#submit-order",
+      activeElement: "button#submit-order",
+      snippet: "<form id=\"checkout-form\">...</form>"
+    },
+    sourceContext: {
+      fileName: "https://app.example.com/assets/main.js",
+      line: 128,
+      column: 14,
+      lines: [
+        { number: 126, content: "function priceOrder() {" },
+        { number: 127, content: "  const divider = 0;" },
+        { number: 128, content: "  return subtotal / divider;", highlight: true },
+        { number: 129, content: "}" }
+      ]
+    }
   },
   console: [],
   breadcrumbs: [],
@@ -380,7 +408,8 @@ The SDK sends a normalized JSON payload shaped like this:
 
 - sanitization is enabled by default
 - common sensitive keys such as `password`, `token`, `authorization`, and `cookie` are redacted by default
-- screenshot capture is optional and should be treated as a best-effort feature
+- screenshot capture is optional and best-effort
+- DOM snippets and source-context lines are optional and should be enabled deliberately
 - DOM masking and element removal are configurable through selectors
 
 You remain responsible for deciding what is acceptable to collect and send in your environment.
@@ -391,6 +420,7 @@ You remain responsible for deciding what is acceptable to collect and send in yo
 - transport uses `fetch` with timeout support
 - the SDK is fail-silent by design, so dropped events are preferred over interfering with the host app
 - console capture is off by default to avoid unnecessary noise and wrapping overhead
+- source-context lines are only fetched for same-origin scripts and only when you enable that option
 
 ## Limitations
 

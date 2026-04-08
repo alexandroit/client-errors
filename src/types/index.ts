@@ -39,7 +39,19 @@ export interface ClientErrorsSanitizeTransformContext {
     | "breadcrumb"
     | "user"
     | "custom"
-    | "screenshot";
+    | "screenshot"
+    | "dom"
+    | "source";
+}
+
+export interface ClientErrorsDomConfig {
+  enabled?: boolean;
+  rootSelector?: string;
+}
+
+export interface ClientErrorsSourceContextConfig {
+  enabled?: boolean;
+  contextLines?: number;
 }
 
 export interface ClientErrorsSanitizeConfig {
@@ -115,6 +127,27 @@ export interface ClientErrorsNormalizedError {
   fileName?: string;
   line?: number;
   column?: number;
+  dom?: ClientErrorsDomContext;
+  sourceContext?: ClientErrorsSourceContext;
+}
+
+export interface ClientErrorsDomContext {
+  target?: string;
+  activeElement?: string;
+  snippet?: string;
+}
+
+export interface ClientErrorsSourceContextLine {
+  number: number;
+  content: string;
+  highlight?: boolean;
+}
+
+export interface ClientErrorsSourceContext {
+  fileName?: string;
+  line?: number;
+  column?: number;
+  lines?: ClientErrorsSourceContextLine[];
 }
 
 export interface ClientErrorsConsoleEntry {
@@ -160,6 +193,7 @@ export interface ClientErrorsCaptureExtra {
   source?: string;
   level?: ClientErrorsMessageLevel;
   tags?: Record<string, string>;
+  target?: EventTarget | null;
   user?: Record<string, unknown>;
   custom?: Record<string, unknown>;
   breadcrumbs?: ClientErrorsBreadcrumb[];
@@ -201,6 +235,8 @@ export interface ClientErrorsConfig {
   captureConsoleWarnings?: boolean;
   captureResourceErrors?: boolean;
   breadcrumbs?: ClientErrorsBreadcrumbConfig;
+  dom?: ClientErrorsDomConfig;
+  sourceContext?: ClientErrorsSourceContextConfig;
   screenshot?: ClientErrorsScreenshotConfig;
   sanitize?: ClientErrorsSanitizeConfig;
   getUserContext?: () => Record<string, unknown> | undefined;

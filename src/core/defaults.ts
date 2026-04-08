@@ -1,8 +1,10 @@
 import type {
   ClientErrorsAuth,
   ClientErrorsBreadcrumbConfig,
+  ClientErrorsDomConfig,
   ClientErrorsRateLimitConfig,
   ClientErrorsSanitizeConfig,
+  ClientErrorsSourceContextConfig,
   ClientErrorsScreenshotConfig
 } from "../types";
 
@@ -17,6 +19,16 @@ export const DEFAULT_BREADCRUMBS: Required<ClientErrorsBreadcrumbConfig> = {
   maxEntries: 25,
   captureClicks: true,
   captureNavigation: true
+};
+
+export const DEFAULT_DOM: Required<ClientErrorsDomConfig> = {
+  enabled: false,
+  rootSelector: ""
+};
+
+export const DEFAULT_SOURCE_CONTEXT: Required<ClientErrorsSourceContextConfig> = {
+  enabled: false,
+  contextLines: 2
 };
 
 export const DEFAULT_SCREENSHOT: Required<
