@@ -21,7 +21,7 @@ export const pages: DocsPage[] = [
     description:
       "Capture browser runtime errors and send a normalized JSON payload to an endpoint you control.",
     body: `
-      <p><strong>@revivejs/client-errors</strong> captures frontend errors in the browser, collects basic request and page context, normalizes the result into a stable payload, and sends it with a POST request.</p>
+      <p><strong>@stackline/client-errors</strong> captures frontend errors in the browser, collects basic request and page context, normalizes the result into a stable payload, and sends it with a POST request.</p>
       <p>The package is framework-agnostic. You can use it in plain browser applications today and wrap the same runtime later for React, Angular, or Vue.</p>
     `
   },
@@ -32,8 +32,8 @@ export const pages: DocsPage[] = [
     description:
       "Install the package and initialize it with your ingest endpoint.",
     body: `
-      ${codeBlock(`npm install @revivejs/client-errors`, "bash")}
-      ${codeBlock(`import { initClientErrors } from "@revivejs/client-errors";
+      ${codeBlock(`npm install @stackline/client-errors`, "bash")}
+      ${codeBlock(`import { initClientErrors } from "@stackline/client-errors";
 
 initClientErrors({
   endpoint: "api/frontend-errors"
@@ -90,7 +90,7 @@ initClientErrors({
   initClientErrors,
   setCustomContext,
   setUserContext
-} from "@revivejs/client-errors";
+} from "@stackline/client-errors";
 
 const client = initClientErrors({
   endpoint: "api/frontend-errors",

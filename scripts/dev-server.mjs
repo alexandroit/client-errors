@@ -98,5 +98,5 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(port, "0.0.0.0", () => {
-  console.log(`ReviveJS client-errors docs server running at http://localhost:${port}/`);
+  console.log(`Stackline client-errors docs server running at http://localhost:${port}/`);
 });

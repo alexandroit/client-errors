@@ -20,7 +20,7 @@ const browserBundlePath = path.join(bundleDir, "client-errors.browser.js");
 const installGuidePath = path.join(bundleDir, "INSTALLATION.txt");
 const readmePath = path.join(downloadRootDir, "README.md");
 
-const installGuide = `@revivejs/client-errors ${version}
+const installGuide = `@stackline/client-errors ${version}
 
 Browser bundle download
 =======================
@@ -61,7 +61,7 @@ Main exports
 
 const downloadReadme = `# GitHub Downloads
 
-This directory contains compiled browser-ready downloads for developers who do not install \`@revivejs/client-errors\` from npm.
+This directory contains compiled browser-ready downloads for developers who do not install \`@stackline/client-errors\` from npm.
 
 Current version:
 

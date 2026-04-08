@@ -16,7 +16,7 @@ const getCodeSnippet = (endpoint: string, authMode: string, captureConsoleErrors
         ? `,\n  auth: {\n    type: "custom",\n    headers: {\n      "X-Ingest-Key": "demo-public-key"\n    }\n  }`
         : "";
 
-  return `import { initClientErrors } from "@revivejs/client-errors";
+  return `import { initClientErrors } from "@stackline/client-errors";
 
 initClientErrors({
   endpoint: "${endpoint}",

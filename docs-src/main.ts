@@ -31,8 +31,8 @@ app.innerHTML = `
   <div class="layout">
     <aside class="sidebar">
       <a class="brand" href="#playground">
-        <span class="eyebrow">ReviveJS</span>
-        <h1>@revivejs/client-errors</h1>
+        <span class="eyebrow">Stackline</span>
+        <h1>@stackline/client-errors</h1>
         <p>Browser error reporting SDK for sending normalized client-side errors to your own endpoint.</p>
       </a>
       <nav class="nav">
@@ -44,7 +44,7 @@ app.innerHTML = `
       <section class="hero">
         <span class="eyebrow">Vanilla TypeScript SDK</span>
         <h2>Capture frontend errors and send them to your backend.</h2>
-        <p><strong>@revivejs/client-errors</strong> listens for browser runtime failures, normalizes the event into a predictable payload, applies sanitization rules, and sends the result with a POST request.</p>
+        <p><strong>@stackline/client-errors</strong> listens for browser runtime failures, normalizes the event into a predictable payload, applies sanitization rules, and sends the result with a POST request.</p>
         <div class="hero__meta">
           <span>Absolute and relative endpoints</span>
           <span>Pure POST or authenticated requests</span>
