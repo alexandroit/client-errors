@@ -15,14 +15,14 @@ Script tag usage
 ----------------
 <script src="./client-errors.browser.js"></script>
 <script>
-  ReviveClientErrors.initClientErrors({
+  StacklineClientErrors.initClientErrors({
     endpoint: "api/frontend-errors"
   });
 </script>
 
 Global name
 -----------
-window.ReviveClientErrors
+window.StacklineClientErrors
 
 Main exports
 ------------

@@ -37,14 +37,14 @@ Script tag usage
 ----------------
 <script src="./client-errors.browser.js"></script>
 <script>
-  ReviveClientErrors.initClientErrors({
+  StacklineClientErrors.initClientErrors({
     endpoint: "api/frontend-errors"
   });
 </script>
 
 Global name
 -----------
-window.ReviveClientErrors
+window.StacklineClientErrors
 
 Main exports
 ------------
@@ -79,7 +79,7 @@ Script tag example:
 \`\`\`html
 <script src="./client-errors.browser.js"></script>
 <script>
-  ReviveClientErrors.initClientErrors({
+  StacklineClientErrors.initClientErrors({
     endpoint: "api/frontend-errors"
   });
 </script>
@@ -96,7 +96,7 @@ await esbuild.build({
   format: "iife",
   target: "es2019",
   platform: "browser",
-  globalName: "ReviveClientErrors",
+  globalName: "StacklineClientErrors",
   outfile: browserBundlePath
 });
 

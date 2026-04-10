@@ -99,12 +99,12 @@ If you do not install packages from npm, download the compiled browser bundle fr
 
 - [GitHub downloads folder](https://github.com/alexandroit/client-errors/tree/main/downloads)
 
-The generated archive includes a browser-ready file named `client-errors.browser.js` that exposes `window.ReviveClientErrors`.
+The generated archive includes a browser-ready file named `client-errors.browser.js` that exposes `window.StacklineClientErrors`.
 
 ```html
 <script src="./client-errors.browser.js"></script>
 <script>
-  ReviveClientErrors.initClientErrors({
+  StacklineClientErrors.initClientErrors({
     endpoint: "api/frontend-errors"
   });
 </script>

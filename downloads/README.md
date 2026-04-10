@@ -18,7 +18,7 @@ Script tag example:
 ```html
 <script src="./client-errors.browser.js"></script>
 <script>
-  ReviveClientErrors.initClientErrors({
+  StacklineClientErrors.initClientErrors({
     endpoint: "api/frontend-errors"
   });
 </script>
