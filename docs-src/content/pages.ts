@@ -42,6 +42,24 @@ initClientErrors({
     `
   },
   {
+    id: "direct-download",
+    title: "Direct Download",
+    eyebrow: "Pure browser JavaScript",
+    description:
+      "Download the compiled browser bundle from GitHub and use the SDK without npm or a bundler.",
+    body: `
+      <p>If your project loads JavaScript directly in the browser, use the GitHub download bundle instead of npm.</p>
+      <p><a class="button" href="https://github.com/alexandroit/client-errors/tree/main/downloads" target="_blank" rel="noreferrer">Open GitHub download bundle</a></p>
+      <p>The bundle exposes <code>window.StacklineClientErrors</code>.</p>
+      ${codeBlock(`<script src="./client-errors.browser.js"></script>
+<script>
+  StacklineClientErrors.initClientErrors({
+    endpoint: "api/frontend-errors"
+  });
+</script>`, "html")}
+    `
+  },
+  {
     id: "transport",
     title: "Transport & Auth",
     eyebrow: "Backend agnostic",
