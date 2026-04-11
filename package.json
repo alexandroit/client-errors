@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/alexandroit/client-errors/issues"
   },
-  "homepage": "https://alexandroit.github.io/client-errors/",
+  "homepage": "https://alexandro.net/docs/vanilla/client-errors/",
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.cjs",
