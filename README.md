@@ -10,7 +10,7 @@
 
 **[Documentation & Playground](https://alexandro.net/docs/vanilla/client-errors/)** | **[npm](https://www.npmjs.com/package/@stackline/client-errors)** | **[GitHub Download](https://github.com/alexandroit/client-errors/tree/main/downloads)** | **[Issues](https://github.com/alexandroit/client-errors/issues)** | **[Repository](https://github.com/alexandroit/client-errors)**
 
-**Latest version:** `0.1.1`
+**Latest version:** `1.0.0`
 
 ---
 
