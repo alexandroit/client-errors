@@ -18,6 +18,7 @@ Last updated: 2026-05-22
 - Rebuilt generated package output, static docs, and the direct download bundle.
 - Published `@stackline/client-errors@1.0.0` to public npm.
 - Published `@stackline/client-errors@1.0.0` to the local Verdaccio registry.
+- Removed the old local Verdaccio version `@stackline/client-errors@0.1.1` so the local registry only lists `1.0.0`.
 - Published static docs to the production docs root on `codex-server`:
   - source staging: `/storage/data/build/alexandro.net-docs`
   - production target: `/var/www/html/alexandro.net_docs`
