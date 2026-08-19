@@ -1,4 +1,4 @@
-@stackline/client-errors 1.0.0
+@stackline/client-errors 1.0.1
 
 Browser bundle download
 =======================

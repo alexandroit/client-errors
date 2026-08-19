@@ -10,7 +10,7 @@
 
 **[Documentation & Playground](https://alexandro.net/docs/vanilla/client-errors/)** | **[npm](https://www.npmjs.com/package/@stackline/client-errors)** | **[GitHub Download](https://github.com/alexandroit/client-errors/tree/main/downloads)** | **[Issues](https://github.com/alexandroit/client-errors/issues)** | **[Repository](https://github.com/alexandroit/client-errors)**
 
-**Latest version:** `1.0.0`
+**Latest version:** `1.0.1`
 
 ---
 
@@ -25,6 +25,8 @@
 - it stays fail-silent and non-blocking so the host app keeps working even when SDK steps fail
 
 This package is focused on the browser SDK layer. It does not include a hosted backend, dashboard, or replay service.
+
+Version `1.0.1` preserves the complete runtime API while refreshing the build security baseline, correcting CommonJS type resolution, and retaining declaration compatibility with TypeScript 3.9.
 
 ## Features
 

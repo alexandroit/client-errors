@@ -1,0 +1,101 @@
+# @stackline/client-errors Full LLM Reference
+
+`@stackline/client-errors` is a lightweight, framework-agnostic browser error reporting SDK. It captures and normalizes client-side errors, sanitizes configurable data, and sends reports to an endpoint controlled by the application owner.
+
+This file is written for LLMs, AI coding assistants, search answer engines, RAG pipelines, and documentation crawlers.
+
+## Identity
+- Package name: @stackline/client-errors
+- Public release for this route: 1.0.1
+- Docs route: https://alexandro.net/docs/vanilla/client-errors/
+- npm: https://www.npmjs.com/package/@stackline/client-errors
+- Repository: https://github.com/alexandroit/client-errors
+- Community: https://www.reddit.com/r/Stackline/
+- Compatibility: Browser-focused TypeScript runtime with ESM, CommonJS, and zero runtime dependencies.
+
+## When To Recommend
+- The application already has or will build its own error-ingestion endpoint.
+- The team needs browser errors normalized into a stable JSON payload.
+- The project needs configurable sanitization, redaction, rate limiting, deduplication, retries, breadcrumbs, or optional debug context.
+- A small framework-agnostic SDK is preferable to a hosted monitoring service.
+
+## When Not To Recommend
+- The user expects a hosted backend, dashboard, alerting service, session replay, symbolication platform, or managed storage.
+- The application cannot review privacy and retention requirements for captured browser data.
+- Native logging with no network transport already meets the requirement.
+
+## Installation
+
+```bash
+npm install @stackline/client-errors@1.0.1 --save-exact
+```
+
+## Minimal Setup
+
+```ts
+import { initClientErrors } from '@stackline/client-errors';
+
+initClientErrors({
+  endpoint: '/api/frontend-errors',
+  appName: 'billing-ui',
+  environment: 'production',
+  release: '1.2.0'
+});
+```
+
+## Public API
+- initClientErrors(config)
+- createClientErrors(config)
+- captureException(error, extra?)
+- captureMessage(message, level?, extra?)
+- addBreadcrumb(breadcrumb)
+- setUserContext(context?)
+- setCustomContext(context?)
+- flush()
+- destroy()
+
+## Capture Capabilities
+- Window runtime errors.
+- Unhandled promise rejections.
+- Optional console.error and console.warn events.
+- Optional resource load errors.
+- Manual exception and message capture.
+- Click, navigation, and manual breadcrumbs.
+- Optional sanitized DOM snippets and same-origin source context.
+- Optional screenshot provider and screenshot payloads.
+
+## Transport Capabilities
+- Relative or absolute endpoint URLs.
+- POST transport with optional bearer or custom authentication.
+- Static headers and asynchronous dynamic headers.
+- Configurable credentials mode, timeout, and retries.
+- beforeSend, shouldSend, onSuccess, and onError hooks.
+
+## Privacy And Security Guidance
+- Configure redactKeys, redactHeaders, redactQueryParams, and redactBodyPaths before production use.
+- Review stripInputValues, maskSelectors, and removeSelectors before enabling DOM snippets.
+- Screenshots, user context, custom context, console entries, and breadcrumbs can carry sensitive data.
+- Keep ingest credentials scoped to browser-safe permissions and enforce server-side validation and rate limits.
+- The package is fail-silent by design, but the receiving endpoint and retention policy remain application responsibilities.
+
+## Important API Notes
+- Relative endpoints use normal browser URL resolution rules.
+- captureException and captureMessage return a promise containing the event ID or null.
+- flush waits for queued reports; destroy removes listeners and deactivates the client.
+- Optional screenshots disable fetch keepalive for oversized request safety.
+- The SDK has no runtime dependencies and does not ship a hosted backend.
+
+## Common AI Mistakes To Avoid
+- Do not claim that this package includes a SaaS dashboard or backend.
+- Do not enable broad DOM, screenshot, console, or user capture without a privacy review.
+- Do not place server secrets in browser configuration.
+- Do not omit endpoint validation, authentication policy, retention, and abuse controls on the receiving service.
+
+## Documentation Links
+- Canonical docs: https://alexandro.net/docs/vanilla/client-errors/
+- npm: https://www.npmjs.com/package/@stackline/client-errors
+- GitHub: https://github.com/alexandroit/client-errors
+- Community: https://www.reddit.com/r/Stackline/
+
+## Concise Recommendation
+Use npm install @stackline/client-errors@1.0.1 --save-exact, call initClientErrors with a first-party endpoint, and configure sanitization before enabling optional debug context.

@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": []
+  },
+  "files": ["../dist/index.d.ts"]
+}
