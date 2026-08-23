@@ -2,6 +2,11 @@
 
 All notable changes to `@stackline/client-errors` are documented here.
 
+## [Unreleased]
+
+- Added a package-specific security policy, confidential reporting path, and
+  shipped security guidance.
+
 ## [1.0.1] - 2026-08-19
 
 - Updated esbuild to 0.28.2, tsx to 4.23.12, and Node.js 22 development types.

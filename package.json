@@ -33,6 +33,7 @@
   "files": [
     "dist",
     "CHANGELOG.md",
+    "SECURITY.md",
     "README.md",
     "LICENSE"
   ],
