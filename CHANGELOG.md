@@ -4,6 +4,8 @@ All notable changes to `@stackline/client-errors` are documented here.
 
 ## [Unreleased]
 
+- Tightened GitHub Pages host detection to require an exact DNS label boundary
+  and added regression coverage for lookalike hostnames.
 - Added a package-specific security policy, confidential reporting path, and
   shipped security guidance.
 

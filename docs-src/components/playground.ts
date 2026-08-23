@@ -101,10 +101,15 @@ const renderScreenshot = (
   metaTarget.textContent = `${payload?.screenshot?.format ?? "image/png"} attached to event ${payload?.eventId ?? "unknown"}`;
 };
 
+export const isGitHubPagesHostname = (hostname: string): boolean => {
+  const normalizedHostname = hostname.toLowerCase();
+  return normalizedHostname === "github.io" || normalizedHostname.endsWith(".github.io");
+};
+
 export const mountPlayground = (element: HTMLElement): void => {
   const originalConsoleError = console.error.bind(console);
   const isStaticDocsMode =
-    typeof window !== "undefined" && window.location.hostname.endsWith("github.io");
+    typeof window !== "undefined" && isGitHubPagesHostname(window.location.hostname);
   const simulatedPayloads: ClientErrorsPayload[] = [];
 
   element.innerHTML = `
