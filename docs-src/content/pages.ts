@@ -32,7 +32,7 @@ export const pages: DocsPage[] = [
     description:
       "Install the package and initialize it with your ingest endpoint.",
     body: `
-      ${codeBlock(`npm install @stackline/client-errors`, "bash")}
+      ${codeBlock(`npm install @stackline/client-errors@1.0.2`, "bash")}
       ${codeBlock(`import { initClientErrors } from "@stackline/client-errors";
 
 initClientErrors({

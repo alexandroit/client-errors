@@ -42,7 +42,7 @@ app.innerHTML = `
     <main class="content">
       <div id="playground"></div>
       <section class="hero">
-        <span class="eyebrow">Vanilla TypeScript SDK</span>
+        <span class="eyebrow">Vanilla TypeScript SDK · 1.0.2</span>
         <h2>Capture frontend errors and send them to your backend.</h2>
         <p><strong>@stackline/client-errors</strong> listens for browser runtime failures, normalizes the event into a predictable payload, applies sanitization rules, and sends the result with a POST request.</p>
         <div class="hero__meta">

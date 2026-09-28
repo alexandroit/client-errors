@@ -4,7 +4,7 @@ var k=(e,r="ts")=>`
       <p><strong>@stackline/client-errors</strong> captures frontend errors in the browser, collects basic request and page context, normalizes the result into a stable payload, and sends it with a POST request.</p>
       <p>The package is framework-agnostic. You can use it in plain browser applications today and wrap the same runtime later for React, Angular, or Vue.</p>
     `},{id:"installation",title:"Installation",eyebrow:"Quick start",description:"Install the package and initialize it with your ingest endpoint.",body:`
-      ${k("npm install @stackline/client-errors","bash")}
+      ${k("npm install @stackline/client-errors@1.0.2","bash")}
       ${k(`import { initClientErrors } from "@stackline/client-errors";
 
 initClientErrors({
@@ -281,7 +281,7 @@ initClientErrors({
     <main class="content">
       <div id="playground"></div>
       <section class="hero">
-        <span class="eyebrow">Vanilla TypeScript SDK</span>
+        <span class="eyebrow">Vanilla TypeScript SDK \xB7 1.0.2</span>
         <h2>Capture frontend errors and send them to your backend.</h2>
         <p><strong>@stackline/client-errors</strong> listens for browser runtime failures, normalizes the event into a predictable payload, applies sanitization rules, and sends the result with a POST request.</p>
         <div class="hero__meta">
