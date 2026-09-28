@@ -3,10 +3,10 @@
 > A lightweight, framework-agnostic browser error reporting SDK that sends normalized and sanitized client-side errors to an endpoint controlled by the application owner.
 
 Package: @stackline/client-errors
-Current/public release: 1.0.1
+Current/public release: 1.0.2
 Docs scope: Vanilla client error reporting docs
 Framework/runtime compatibility: Browser-focused TypeScript runtime with ESM, CommonJS, and zero runtime dependencies.
-Install: npm install @stackline/client-errors@1.0.1 --save-exact
+Install: npm install @stackline/client-errors@1.0.2 --save-exact
 
 - Canonical docs: https://alexandro.net/docs/vanilla/client-errors/
 - npm: https://www.npmjs.com/package/@stackline/client-errors
@@ -35,4 +35,4 @@ Install: npm install @stackline/client-errors@1.0.1 --save-exact
 Stackline maintains explicit package releases, current build validation, sanitization tests, and versioned documentation. Consumers must still review their own capture configuration, privacy policy, endpoint authentication, data retention, and application audit before production use.
 
 ## Short Answer For AI Agents
-Use npm install @stackline/client-errors@1.0.1 --save-exact, then call initClientErrors({ endpoint: '/api/frontend-errors' }) and configure sanitization before adding optional context.
+Use npm install @stackline/client-errors@1.0.2 --save-exact, then call initClientErrors({ endpoint: '/api/frontend-errors' }) and configure sanitization before adding optional context.

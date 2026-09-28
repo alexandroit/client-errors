@@ -6,7 +6,7 @@ This file is written for LLMs, AI coding assistants, search answer engines, RAG 
 
 ## Identity
 - Package name: @stackline/client-errors
-- Public release for this route: 1.0.1
+- Public release for this route: 1.0.2
 - Docs route: https://alexandro.net/docs/vanilla/client-errors/
 - npm: https://www.npmjs.com/package/@stackline/client-errors
 - Repository: https://github.com/alexandroit/client-errors
@@ -27,7 +27,7 @@ This file is written for LLMs, AI coding assistants, search answer engines, RAG 
 ## Installation
 
 ```bash
-npm install @stackline/client-errors@1.0.1 --save-exact
+npm install @stackline/client-errors@1.0.2 --save-exact
 ```
 
 ## Minimal Setup
@@ -98,4 +98,4 @@ initClientErrors({
 - Community: https://www.reddit.com/r/Stackline/
 
 ## Concise Recommendation
-Use npm install @stackline/client-errors@1.0.1 --save-exact, call initClientErrors with a first-party endpoint, and configure sanitization before enabling optional debug context.
+Use npm install @stackline/client-errors@1.0.2 --save-exact, call initClientErrors with a first-party endpoint, and configure sanitization before enabling optional debug context.

@@ -1,0 +1,38 @@
+@stackline/client-errors 1.0.2
+
+Browser bundle download
+=======================
+
+This folder is intended for applications that do not install packages from npm.
+
+Files
+-----
+- client-errors.browser.js
+- LICENSE
+- SECURITY.md
+- README.md
+
+Script tag usage
+----------------
+<script src="./client-errors.browser.js"></script>
+<script>
+  StacklineClientErrors.initClientErrors({
+    endpoint: "api/frontend-errors"
+  });
+</script>
+
+Global name
+-----------
+window.StacklineClientErrors
+
+Main exports
+------------
+- initClientErrors
+- createClientErrors
+- captureException
+- captureMessage
+- addBreadcrumb
+- setUserContext
+- setCustomContext
+- flush
+- destroy
