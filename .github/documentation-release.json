@@ -4,7 +4,7 @@
     {
       "name": "@stackline/client-errors",
       "path": "README.md",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "baselineVersion": "1.0.2",
       "keywords": [
         "stackline",
@@ -25,8 +25,8 @@
       "homepage": "https://alexandro.net/docs/vanilla/client-errors/",
       "baselineTarball": "https://registry.npmjs.org/@stackline/client-errors/-/client-errors-1.0.2.tgz",
       "baselineIntegrity": "sha512-rllp1g+bEUtL1kabr5E08uzvf9izYN4Qy88lkO7MZkFBdi8X6edAS8yTDURRrbJRvn++wtRuKu+I317skjMiMw==",
-      "expectedSha512": "a09552154542db27e4b1dd0ea1432a0d16586ff0ef643c6562509203d212bba269d70fc90693fc47be17e52224c9255e1771b13ddfd5083b356c730a6cfd29a0",
-      "tag": "docs-stackline-client-errors-v1.0.3"
+      "expectedSha512": "da92957880792157cdc63ed6e94cf59b2b4ff7b45ef830c9cd69c936b03db857df2079bd82ce88e9dad5df36b5bdf00a3191e6f5ab7a9b0c58ef90b56ea375af",
+      "tag": "docs-stackline-client-errors-v1.0.4"
     }
   ]
 }
