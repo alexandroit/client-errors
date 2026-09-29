@@ -1,0 +1,32 @@
+{
+  "repository": "alexandroit/client-errors",
+  "packages": [
+    {
+      "name": "@stackline/client-errors",
+      "path": "README.md",
+      "version": "1.0.3",
+      "baselineVersion": "1.0.2",
+      "keywords": [
+        "stackline",
+        "npm-package",
+        "client-errors",
+        "browser",
+        "typescript",
+        "error-reporting",
+        "browser-errors",
+        "frontend-monitoring",
+        "unhandledrejection",
+        "breadcrumbs",
+        "sanitization",
+        "fetch",
+        "javascript",
+        "framework-agnostic"
+      ],
+      "homepage": "https://alexandro.net/docs/vanilla/client-errors/",
+      "baselineTarball": "https://registry.npmjs.org/@stackline/client-errors/-/client-errors-1.0.2.tgz",
+      "baselineIntegrity": "sha512-rllp1g+bEUtL1kabr5E08uzvf9izYN4Qy88lkO7MZkFBdi8X6edAS8yTDURRrbJRvn++wtRuKu+I317skjMiMw==",
+      "expectedSha512": "a09552154542db27e4b1dd0ea1432a0d16586ff0ef643c6562509203d212bba269d70fc90693fc47be17e52224c9255e1771b13ddfd5083b356c730a6cfd29a0",
+      "tag": "docs-stackline-client-errors-v1.0.3"
+    }
+  ]
+}
