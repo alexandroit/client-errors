@@ -1,6 +1,6 @@
 {
   "name": "@stackline/client-errors",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A lightweight frontend error reporting SDK for browser applications, with normalized payloads, sanitization, and transport to any developer-defined endpoint.",
   "license": "MIT",
   "author": "Alexandro Paixao Marques",
@@ -52,7 +52,10 @@
   },
   "keywords": [
     "stackline",
+    "npm-package",
     "client-errors",
+    "browser",
+    "typescript",
     "error-reporting",
     "browser-errors",
     "frontend-monitoring",
@@ -60,9 +63,7 @@
     "breadcrumbs",
     "sanitization",
     "fetch",
-    "typescript",
     "javascript",
-    "browser",
     "framework-agnostic"
   ],
   "devDependencies": {
